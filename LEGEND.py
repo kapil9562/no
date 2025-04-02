@@ -61,6 +61,13 @@ async def run_attack(chat_id, ip, port, duration, context):
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE
         )
+
+        try:
+            await asyncio.sleep(duration)
+        except asyncio.CancelledError:
+            process.terminate()
+            raise
+            
         stdout, stderr = await process.communicate()
 
         if stdout:
